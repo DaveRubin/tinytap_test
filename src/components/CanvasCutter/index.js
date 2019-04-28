@@ -1,28 +1,33 @@
 import React from 'react';
 import { CanvasCutterWrapper } from './styles';
+import { ImageSelector } from './components/ImageSelector';
 
 const INITIAL_STATE = {
-  loadedImage: null,
+  imageSrc: null,
   parts: []
 };
 
-class CanvasCutter extends React.Component {
+export class CanvasCutter extends React.Component {
   constructor(props) {
     super(props);
     this.state = INITIAL_STATE;
   }
 
-  onImageLoad = ({ image }) => {
-    this.setState({ loadedImage: image });
+  onImageSelected = imageSrc => {
+    this.setState({ imageSrc });
   };
+
   resetScene = () => this.setState(INITIAL_STATE);
 
   render() {
-    const { loadedImage } = this.state;
+    const { imageSrc } = this.state;
     return (
       <CanvasCutterWrapper>
-        {loadedImage === null ? (
-          <div className="imageSelector" onImageLoad={this.onImageLoad} />
+        {imageSrc === null ? (
+          <ImageSelector
+            className="imageSelector"
+            onImageSelected={this.onImageSelected}
+          />
         ) : (
           <div className="ImageContainer">
             <div className="baseImage" />
@@ -35,5 +40,3 @@ class CanvasCutter extends React.Component {
     );
   }
 }
-
-export default CanvasCutter;

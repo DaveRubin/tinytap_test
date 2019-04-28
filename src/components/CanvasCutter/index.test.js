@@ -1,12 +1,12 @@
 import React from 'react';
-import CanvasCutter from './index';
+import { CanvasCutter } from './index';
 import { shallow } from 'enzyme';
 
 describe('Main App wrapper', () => {
   it('should initialize correctly', () => {
     const wrapper = shallow(<CanvasCutter />);
     expect(wrapper.length).toBe(1);
-    expect(wrapper.state().loadedImage).toBe(null);
+    expect(wrapper.state().imageSrc).toBe(null);
     expect(wrapper.find('.imageSelector').exists()).toBe(true);
     expect(wrapper.find('.resetSceneButton').exists()).toBe(false);
     expect(wrapper.find('.baseImage').exists()).toBe(false);
@@ -16,8 +16,8 @@ describe('Main App wrapper', () => {
   it('should show the image once loaded', () => {
     const wrapper = shallow(<CanvasCutter />);
     const imageSelector = wrapper.find('.imageSelector');
-    imageSelector.simulate('imageLoad', { image: 'SOME IMAGE' });
-    expect(wrapper.state().loadedImage).toBe('SOME IMAGE');
+    imageSelector.simulate('imageSelected', 'SOME IMAGE');
+    expect(wrapper.state().imageSrc).toBe('SOME IMAGE');
     expect(wrapper.state().parts).toEqual([]);
     expect(wrapper.find('.imageSelector').exists()).toBe(false);
     expect(wrapper.find('.resetSceneButton').exists()).toBe(true);
@@ -27,11 +27,9 @@ describe('Main App wrapper', () => {
   });
   it('should reset all when clicking reset', () => {
     const wrapper = shallow(<CanvasCutter />);
-    wrapper
-      .find('.imageSelector')
-      .simulate('imageLoad', { image: 'SOME IMAGE' });
+    wrapper.find('.imageSelector').simulate('imageSelected', 'SOME IMAGE');
     wrapper.find('.resetSceneButton').simulate('click');
-    expect(wrapper.state().loadedImage).toBe(null);
+    expect(wrapper.state().imageSrc).toBe(null);
     expect(wrapper.find('.imageSelector').exists()).toBe(true);
     expect(wrapper.find('.resetSceneButton').exists()).toBe(false);
     expect(wrapper.find('.baseImage').exists()).toBe(false);
