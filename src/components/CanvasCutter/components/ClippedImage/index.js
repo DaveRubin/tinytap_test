@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import {
-  ClippedImageWrapper,
-  ClippedImageCanvas,
-  RemoveButton
-} from './styles';
+import { ClippedImageWrapper, ClippedImageCanvas, IconWrapper } from './styles';
+import { FaTimesCircle } from 'react-icons/fa';
 
 const HOLE_COLOR = '#111';
 
@@ -106,10 +103,9 @@ export class ClippedImage extends React.PureComponent {
     return (
       <ClippedImageWrapper offset={offset}>
         {isDraggable && (
-          <RemoveButton
-            className="removeButton"
-            onClick={this.props.onRemove}
-          />
+          <IconWrapper className="removeButton" onClick={this.props.onRemove}>
+            <FaTimesCircle />
+          </IconWrapper>
         )}
         <ClippedImageCanvas
           shadow={isDraggable}

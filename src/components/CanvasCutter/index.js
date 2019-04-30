@@ -4,11 +4,13 @@ import {
   CanvasCutterWrapper,
   ImagesContainer,
   BaseImage,
-  ImagePartsContainer
+  ImagePartsContainer,
+  ResetButton
 } from './styles';
 import { ImageSelector } from './components/ImageSelector';
 import { GUILayer } from './components/GUILayer';
 import { ClippedImage } from './components/ClippedImage';
+import { messages } from './messages';
 
 const INITIAL_STATE = {
   imageSrc: null,
@@ -79,6 +81,9 @@ export class CanvasCutter extends React.Component {
           />
         ) : (
           <ImagesContainer className="ImageContainer">
+            <ResetButton className="resetSceneButton" onClick={this.resetScene}>
+              {messages.reset}
+            </ResetButton>
             <BaseImage
               className="baseImage"
               src={imageSrc}
@@ -96,7 +101,6 @@ export class CanvasCutter extends React.Component {
             <ImagePartsContainer className="imageParts">
               {parts.map(this.renderPart(true, imageDimensions))}
             </ImagePartsContainer>
-            <button className="resetSceneButton" onClick={this.resetScene} />
           </ImagesContainer>
         )}
       </CanvasCutterWrapper>

@@ -4,7 +4,10 @@ export const ClippedImageWrapper = styled.div(
   {
     position: 'relative',
     height: 0,
-    width: 0
+    width: 0,
+    ':hover .removeButton': {
+      opacity: 1
+    }
   },
   ({ offset }) => ({
     left: offset[0],
@@ -12,10 +15,13 @@ export const ClippedImageWrapper = styled.div(
   })
 );
 
-export const RemoveButton = styled.button({
+export const IconWrapper = styled.div({
+  color: 'white',
   position: 'absolute',
-  top: 0,
-  zIndex: 999
+  zIndex: 999,
+  opacity: 0,
+  transition: 'opacity 0.2s',
+  cursor: 'pointer'
 });
 
 export const ClippedImageCanvas = styled.canvas(
