@@ -31,8 +31,9 @@ export const ClippedImageCanvas = styled.canvas(
     left: 0,
     display: 'block'
   },
-  ({ dimensions, shadow }) => ({
-    filter: shadow ? 'drop-shadow(0 5px 10px #000)' : null,
+  ({ dimensions, isDraggable, isDrag }) => ({
+    cursor: isDraggable && (isDrag ? 'grabbing' : 'grab'),
+    filter: isDraggable ? 'drop-shadow(0 5px 10px #000)' : null,
     width: dimensions[0],
     height: dimensions[1]
   })

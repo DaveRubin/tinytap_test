@@ -73,7 +73,7 @@ export class ClippedImage extends React.PureComponent {
   };
 
   render() {
-    const { offset, dimensions } = this.state;
+    const { offset, dimensions, isDrag } = this.state;
     const { isDraggable } = this.props;
     const dragActions = isDraggable
       ? {
@@ -90,7 +90,8 @@ export class ClippedImage extends React.PureComponent {
           </IconWrapper>
         )}
         <ClippedImageCanvas
-          shadow={isDraggable}
+          isDraggable={isDraggable}
+          isDrag={isDrag}
           className="clippedImage"
           dimensions={dimensions}
           ref={this.canvasRef}
