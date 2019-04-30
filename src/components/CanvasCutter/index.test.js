@@ -13,6 +13,7 @@ describe('Main App wrapper', () => {
     expect(wrapper.find('.imageParts').exists()).toBe(false);
     expect(wrapper.find('.guiLayer').exists()).toBe(false);
   });
+
   it('should show the image once loaded', () => {
     const wrapper = shallow(<CanvasCutter />);
     const imageSelector = wrapper.find('.imageSelector');
@@ -25,6 +26,7 @@ describe('Main App wrapper', () => {
     expect(wrapper.find('.imageParts').exists()).toBe(true);
     expect(wrapper.find('.guiLayer').exists()).toBe(true);
   });
+
   it('should reset all when clicking reset', () => {
     const wrapper = shallow(<CanvasCutter />);
     wrapper.find('.imageSelector').simulate('imageSelected', 'SOME IMAGE');
@@ -35,5 +37,19 @@ describe('Main App wrapper', () => {
     expect(wrapper.find('.baseImage').exists()).toBe(false);
     expect(wrapper.find('.imageParts').exists()).toBe(false);
     expect(wrapper.find('.guiLayer').exists()).toBe(false);
+  });
+
+  it('should add image part for each shape created', () => {
+    const wrapper = shallow(<CanvasCutter />);
+    expect(wrapper.state().parts.length).toBe(0);
+    expect(wrapper.find('.draggablePart').length).toBe(0);
+    expect(wrapper.find('.partHole').length).toBe(0);
+    wrapper.find('.imageSelector').simulate('imageSelected', 'SOME IMAGE');
+    wrapper
+      .find('.guiLayer')
+      .simulate('shapeComplete', [[0, 0], [1, 0], [0, 1], [0, 0]]);
+    expect(wrapper.state().parts.length).toBe(1);
+    expect(wrapper.find('.draggablePart').length).toBe(1);
+    expect(wrapper.find('.partHole').length).toBe(1);
   });
 });

@@ -8,3 +8,9 @@ export const ImagesContainer = styled.div({});
 export const BaseImage = styled.img({
   maxHeight: '100vh'
 });
+export const ImagePartsContainer = styled.div({
+  position: 'absolute',
+  top: 0,
+  width: 0,
+  height: 0
+});

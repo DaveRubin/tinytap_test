@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import { PreviewImage } from './styles';
 import { messages } from './messages';
 
@@ -27,8 +28,7 @@ export class ImageSelector extends React.Component {
   };
   onImageSelect = () => {
     const { imageSrc } = this.state;
-    const { onImageSelected } = this.props;
-    onImageSelected(imageSrc);
+    this.props.onImageSelected(imageSrc);
   };
 
   render() {
@@ -59,3 +59,7 @@ export class ImageSelector extends React.Component {
     );
   }
 }
+
+ImageSelector.propTypes = {
+  onImageSelected: PropTypes.func
+};

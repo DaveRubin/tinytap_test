@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { DrawCanvas, GUILayerWrapper } from './styles';
 
 export class GUILayer extends React.Component {
@@ -98,3 +99,11 @@ export class GUILayer extends React.Component {
     );
   }
 }
+
+GUILayer.propTypes = {
+  dimensions: PropTypes.shape({
+    height: PropTypes.number,
+    width: PropTypes.number
+  }),
+  onShapeComplete: PropTypes.func
+};

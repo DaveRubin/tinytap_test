@@ -1,8 +1,14 @@
 import React from 'react';
 import _ from 'lodash';
-import { CanvasCutterWrapper, ImagesContainer, BaseImage } from './styles';
+import {
+  CanvasCutterWrapper,
+  ImagesContainer,
+  BaseImage,
+  ImagePartsContainer
+} from './styles';
 import { ImageSelector } from './components/ImageSelector';
 import { GUILayer } from './components/GUILayer';
+import { ClippedImage } from './components/ClippedImage';
 
 const INITIAL_STATE = {
   imageSrc: null,
@@ -15,6 +21,7 @@ export class CanvasCutter extends React.Component {
     super(props);
     this.state = INITIAL_STATE;
     this.imageRef = React.createRef();
+    this.partId = 0;
   }
 
   onImageSelected = imageSrc => {
@@ -30,17 +37,39 @@ export class CanvasCutter extends React.Component {
         width: image.clientWidth,
         height: image.clientHeight
       };
-      console.log(imageDimensions);
-      console.log(image);
       this.setState({
         imageDimensions
       });
     }
   }
 
-  render() {
-    const { imageSrc, imageDimensions } = this.state;
+  addPart = shape => {
+    const { parts } = this.state;
+    parts.push({ shape, id: this.partId });
+    this.partId++;
+    this.setState({ parts });
+  };
 
+  getRemoveListener = idToRemove => () => {
+    const { parts } = this.state;
+    _.remove(parts, ({ shape, id }) => id === idToRemove);
+    this.setState({ parts });
+  };
+
+  renderPart = (isDraggable, imageDimensions) => ({ shape, id }) => (
+    <ClippedImage
+      isDraggable={isDraggable}
+      imageSrc={this.imageRef.current}
+      imageDimensions={imageDimensions}
+      shape={shape}
+      key={isDraggable ? `draggable_${id}` : `hole_${id}`}
+      className={isDraggable ? 'draggablePart' : 'partHole'}
+      onRemove={this.getRemoveListener(id)}
+    />
+  );
+
+  render() {
+    const { imageSrc, imageDimensions, parts } = this.state;
     return (
       <CanvasCutterWrapper>
         {imageSrc === null ? (
@@ -56,12 +85,17 @@ export class CanvasCutter extends React.Component {
               ref={this.imageRef}
               alt=""
             />
+            <ImagePartsContainer className="holes">
+              {parts.map(this.renderPart(false, imageDimensions))}
+            </ImagePartsContainer>
             <GUILayer
               className="guiLayer"
-              onShapeComplete={console.log}
+              onShapeComplete={this.addPart}
               dimensions={imageDimensions}
             />
-            <div className="imageParts" />
+            <ImagePartsContainer className="imageParts">
+              {parts.map(this.renderPart(true, imageDimensions))}
+            </ImagePartsContainer>
             <button className="resetSceneButton" onClick={this.resetScene} />
           </ImagesContainer>
         )}
