@@ -7,6 +7,8 @@ describe('Main App wrapper', () => {
     const wrapper = shallow(<CanvasCutter />);
     expect(wrapper.length).toBe(1);
     expect(wrapper.state().imageSrc).toBe(null);
+    expect(wrapper.state().showPopup).toBe(false);
+    expect(wrapper.find('.introPopup').exists()).toBe(false);
     expect(wrapper.find('.imageSelector').exists()).toBe(true);
     expect(wrapper.find('.resetSceneButton').exists()).toBe(false);
     expect(wrapper.find('.baseImage').exists()).toBe(false);
@@ -20,6 +22,8 @@ describe('Main App wrapper', () => {
     imageSelector.simulate('imageSelected', 'SOME IMAGE');
     expect(wrapper.state().imageSrc).toBe('SOME IMAGE');
     expect(wrapper.state().parts).toEqual([]);
+    expect(wrapper.state().showPopup).toBe(true);
+    expect(wrapper.find('.introPopup').exists()).toBe(true);
     expect(wrapper.find('.imageSelector').exists()).toBe(false);
     expect(wrapper.find('.resetSceneButton').exists()).toBe(true);
     expect(wrapper.find('.baseImage').exists()).toBe(true);
@@ -30,6 +34,8 @@ describe('Main App wrapper', () => {
   it('should reset all when clicking reset', () => {
     const wrapper = shallow(<CanvasCutter />);
     wrapper.find('.imageSelector').simulate('imageSelected', 'SOME IMAGE');
+    wrapper.find('.introPopup').simulate('close');
+    expect(wrapper.state().showPopup).toBe(false);
     wrapper.find('.resetSceneButton').simulate('click');
     expect(wrapper.state().imageSrc).toBe(null);
     expect(wrapper.find('.imageSelector').exists()).toBe(true);

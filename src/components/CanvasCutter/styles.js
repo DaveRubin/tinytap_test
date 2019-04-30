@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Button } from './components/shared/components/Button';
 
 export const CanvasCutterWrapper = styled.div({
   display: 'flex',
@@ -19,11 +20,9 @@ export const ImagePartsContainer = styled.div({
   height: 0
 });
 
-export const ResetButton = styled.button({
+export const ResetButton = styled(Button)({
   position: 'absolute',
   zIndex: 999,
-  border: 'none',
-  borderRadius: 5,
   backgroundColor: 'rgba(255,255,255,0.2)',
   color: 'white'
 });

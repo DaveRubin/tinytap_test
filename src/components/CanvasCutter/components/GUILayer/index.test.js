@@ -51,6 +51,25 @@ describe('GUILayer', () => {
     const drawingArea = wrapper.find('.drawingArea');
     wrapper.instance().setBounds(MOCK_BOUNDS);
     wrapper.instance().setContext2D(MOCK_CONTEXT);
+    drawingArea.simulate('mouseDown', { clientX: 100, clientY: 200 });
+    drawingArea.simulate('mouseMove', { clientX: 200, clientY: 300 });
+    drawingArea.simulate('mouseUp', { clientX: 300, clientY: 400 });
+    expect(wrapper.state()).toEqual({
+      isDrawing: false,
+      shape: [[100, 200], [200, 300], [300, 400], [100, 200]]
+    });
+    expect(props.onShapeComplete).toBeCalledWith([
+      [100, 200],
+      [200, 300],
+      [300, 400],
+      [100, 200]
+    ]);
+  });
+  it('should prevent small shapes from being created', () => {
+    const wrapper = getWrapper();
+    const drawingArea = wrapper.find('.drawingArea');
+    wrapper.instance().setBounds(MOCK_BOUNDS);
+    wrapper.instance().setContext2D(MOCK_CONTEXT);
     drawingArea.simulate('mouseDown', { clientX: 1, clientY: 2 });
     drawingArea.simulate('mouseMove', { clientX: 2, clientY: 3 });
     drawingArea.simulate('mouseUp', { clientX: 3, clientY: 4 });
@@ -58,11 +77,6 @@ describe('GUILayer', () => {
       isDrawing: false,
       shape: [[1, 2], [2, 3], [3, 4], [1, 2]]
     });
-    expect(props.onShapeComplete).toBeCalledWith([
-      [1, 2],
-      [2, 3],
-      [3, 4],
-      [1, 2]
-    ]);
+    expect(props.onShapeComplete).not.toBeCalled();
   });
 });

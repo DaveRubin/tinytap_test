@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { ClippedImageWrapper, ClippedImageCanvas, IconWrapper } from './styles';
+import { getShapeBounds } from '../shared/shapeHelpers';
 import { FaTimesCircle } from 'react-icons/fa';
 
 const HOLE_COLOR = '#111';
@@ -9,7 +10,7 @@ const HOLE_COLOR = '#111';
 export class ClippedImage extends React.PureComponent {
   constructor(props) {
     super(props);
-    const { offset, dimensions } = this.getShapeBounds();
+    const { offset, dimensions } = getShapeBounds(props.shape);
     this.state = {
       isDrag: false,
       lastDragPosition: null,
@@ -18,29 +19,6 @@ export class ClippedImage extends React.PureComponent {
     };
     this.canvasRef = React.createRef();
   }
-
-  getShapeBounds = () => {
-    const { shape } = this.props;
-    const { minY, minX, maxX, maxY } = shape.reduce(
-      (acc, [x, y]) => {
-        if (x > acc.maxX) acc.maxX = x;
-        if (x < acc.minX) acc.minX = x;
-        if (y > acc.maxY) acc.maxY = y;
-        if (y < acc.minY) acc.minY = y;
-        return acc;
-      },
-      {
-        minY: Number.POSITIVE_INFINITY,
-        minX: Number.POSITIVE_INFINITY,
-        maxX: Number.NEGATIVE_INFINITY,
-        maxY: Number.NEGATIVE_INFINITY
-      }
-    );
-    return {
-      offset: [minX, minY],
-      dimensions: [maxX - minX, maxY - minY]
-    };
-  };
 
   startDrag = ({ clientX, clientY }) => {
     this.setState({
@@ -69,6 +47,9 @@ export class ClippedImage extends React.PureComponent {
       ctx.canvas.width = dimensions[0];
       ctx.canvas.height = dimensions[1];
       ctx.beginPath();
+      ctx.setLineDash([10, 10]);
+      ctx.lineWidth = 8;
+      ctx.strokeStyle = 'white';
       ctx.fillStyle = HOLE_COLOR;
       shape.forEach(([x, y], index) => {
         const action = index === 0 ? 'moveTo' : 'lineTo';
@@ -84,6 +65,7 @@ export class ClippedImage extends React.PureComponent {
           imageDimensions.width,
           imageDimensions.height
         );
+        ctx.stroke();
       } else {
         ctx.fill();
       }

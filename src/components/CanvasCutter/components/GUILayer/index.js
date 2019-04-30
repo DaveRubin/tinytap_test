@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DrawCanvas, GUILayerWrapper } from './styles';
+import { getShapeBounds } from '../shared/shapeHelpers';
+
+const AREA_THRESHOLD = 50 * 50;
 
 export class GUILayer extends React.Component {
   constructor(props) {
@@ -41,9 +44,8 @@ export class GUILayer extends React.Component {
   };
 
   finalizeShape = position => {
-    this.lineToPoint(position);
     this.context2d.closePath();
-    this.context2d.stroke();
+    this.context2d.clearRect(0, 0, this.bounds.width, this.bounds.height);
   };
 
   startDrawing = ({ clientX, clientY }) => {
@@ -62,8 +64,9 @@ export class GUILayer extends React.Component {
       const { left, top } = this.bounds;
       const position = [clientX - left, clientY - top];
       this.updateShape(position, true);
-      this.props.onShapeComplete(shape);
       this.finalizeShape(position);
+      const { area } = getShapeBounds(shape);
+      if (area >= AREA_THRESHOLD) this.props.onShapeComplete(shape);
     }
   };
 

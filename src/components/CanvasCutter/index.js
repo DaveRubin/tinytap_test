@@ -10,12 +10,14 @@ import {
 import { ImageSelector } from './components/ImageSelector';
 import { GUILayer } from './components/GUILayer';
 import { ClippedImage } from './components/ClippedImage';
+import { Popup } from './components/Popup';
 import { messages } from './messages';
 
 const INITIAL_STATE = {
   imageSrc: null,
   imageDimensions: { width: 0, height: 0 },
-  parts: []
+  parts: [],
+  showPopup: false
 };
 
 export class CanvasCutter extends React.Component {
@@ -27,7 +29,7 @@ export class CanvasCutter extends React.Component {
   }
 
   onImageSelected = imageSrc => {
-    this.setState({ imageSrc });
+    this.setState({ imageSrc, showPopup: true });
   };
 
   resetScene = () => this.setState(INITIAL_STATE);
@@ -70,10 +72,22 @@ export class CanvasCutter extends React.Component {
     />
   );
 
+  closePopup = () => {
+    this.setState({ showPopup: false });
+  };
+
   render() {
-    const { imageSrc, imageDimensions, parts } = this.state;
+    const { imageSrc, imageDimensions, parts, showPopup } = this.state;
     return (
       <CanvasCutterWrapper>
+        {showPopup && (
+          <Popup
+            className="introPopup"
+            popupText={messages.introText}
+            closeText={messages.closePopup}
+            onClose={this.closePopup}
+          />
+        )}
         {imageSrc === null ? (
           <ImageSelector
             className="imageSelector"

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Button } from '../shared/components/Button';
 
 const boxDimensions = {
   width: 400,
@@ -20,10 +21,7 @@ export const PreviewWrapper = styled.div({
   ...columnFlex
 });
 
-export const SelectButton = styled.button({
-  border: 'none',
-  borderRadius: 5,
-  padding: 5,
+export const SelectButton = styled(Button)({
   margin: 10
 });
 
