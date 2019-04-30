@@ -63,18 +63,20 @@ export class ImageSelector extends React.Component {
     return (
       <ImageSelectorWrapper>
         <FileInputBox>
-          <FileInputText className="selectImageText">
+          <FileInputText>
             <IconWrapper>
               <FaImage />
             </IconWrapper>
-            {imageSrc ? messages.dragToReplace : messages.pleaseSelect}
+            <p className="selectImageText">
+              {imageSrc ? messages.dragToReplace : messages.pleaseSelect}
+            </p>
           </FileInputText>
           <FileInput
             onChange={this.readUrl}
             className="fileSelection"
             type="file"
             name="file"
-            id="file"
+            id="fileSelection"
             ref={this.inputRef}
           />
         </FileInputBox>

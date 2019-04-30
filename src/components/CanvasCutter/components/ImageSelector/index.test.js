@@ -18,9 +18,7 @@ describe('ImageSelector', () => {
     expect(wrapper.find('.previewImage').exists()).toBe(false);
     expect(wrapper.find('#fileSelection').exists()).toBe(true);
     expect(wrapper.find('.selectImageButton').exists()).toBe(false);
-    expect(wrapper.find('.selectImageText').text()).toBe(
-      'Please select an image'
-    );
+    expect(wrapper.find('.selectImageText').text()).toBe('Select an image');
   });
   it('should show image once input loaded', () => {
     const wrapper = getWrapper();
@@ -29,7 +27,6 @@ describe('ImageSelector', () => {
     expect(wrapper.find('.previewImage').exists()).toBe(true);
     expect(wrapper.find('#fileSelection').exists()).toBe(true);
     expect(wrapper.find('.selectImageButton').exists()).toBe(true);
-    expect(wrapper.find('.selectImageText').exists()).toBe(false);
   });
   it('should call onImageSelected when pressing the Select button', () => {
     const wrapper = getWrapper();
