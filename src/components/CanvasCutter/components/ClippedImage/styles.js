@@ -17,6 +17,7 @@ export const RemoveButton = styled.button({
   top: 0,
   zIndex: 999
 });
+
 export const ClippedImageCanvas = styled.canvas(
   {
     position: 'relative',

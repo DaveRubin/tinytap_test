@@ -1,8 +1,18 @@
 import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import { PreviewImage } from './styles';
+import {
+  PreviewWrapper,
+  PreviewImage,
+  FileInput,
+  FileInputBox,
+  FileInputText,
+  IconWrapper,
+  ImageSelectorWrapper,
+  SelectButton
+} from './styles';
 import { messages } from './messages';
+import { FaImage } from 'react-icons/fa';
 
 export class ImageSelector extends React.Component {
   constructor(props) {
@@ -31,31 +41,45 @@ export class ImageSelector extends React.Component {
     this.props.onImageSelected(imageSrc);
   };
 
+  renderPreview = () =>
+    this.state.imageSrc && (
+      <PreviewWrapper>
+        <SelectButton
+          className="selectImageButton"
+          onClick={this.onImageSelect}
+        >
+          {messages.selectImage}
+        </SelectButton>
+        <PreviewImage
+          className="previewImage"
+          src={this.state.imageSrc}
+          alt="preview"
+        />
+      </PreviewWrapper>
+    );
+
   render() {
     const { imageSrc } = this.state;
     return (
-      <div>
-        <input
-          onChange={this.readUrl}
-          className="fileSelection"
-          type="file"
-          ref={this.inputRef}
-        />
-        {imageSrc ? (
-          <div>
-            <PreviewImage
-              className="previewImage"
-              src={imageSrc}
-              alt="preview"
-            />
-            <button className="selectImageButton" onClick={this.onImageSelect}>
-              {messages.selectImage}
-            </button>
-          </div>
-        ) : (
-          <p className="selectImageText">{messages.pleaseSelect}</p>
-        )}
-      </div>
+      <ImageSelectorWrapper>
+        <FileInputBox>
+          <FileInputText className="selectImageText">
+            <IconWrapper>
+              <FaImage />
+            </IconWrapper>
+            {imageSrc ? messages.dragToReplace : messages.pleaseSelect}
+          </FileInputText>
+          <FileInput
+            onChange={this.readUrl}
+            className="fileSelection"
+            type="file"
+            name="file"
+            id="file"
+            ref={this.inputRef}
+          />
+        </FileInputBox>
+        {this.renderPreview()}
+      </ImageSelectorWrapper>
     );
   }
 }

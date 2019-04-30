@@ -16,7 +16,7 @@ describe('ImageSelector', () => {
     const wrapper = getWrapper();
     expect(wrapper.length).toBe(1);
     expect(wrapper.find('.previewImage').exists()).toBe(false);
-    expect(wrapper.find('.fileSelection').exists()).toBe(true);
+    expect(wrapper.find('#fileSelection').exists()).toBe(true);
     expect(wrapper.find('.selectImageButton').exists()).toBe(false);
     expect(wrapper.find('.selectImageText').text()).toBe(
       'Please select an image'
@@ -27,7 +27,7 @@ describe('ImageSelector', () => {
     wrapper.instance().onReaderOnload({ target: { result: 'IMAGE_DATA' } });
     expect(wrapper.state().imageSrc).toBe('IMAGE_DATA');
     expect(wrapper.find('.previewImage').exists()).toBe(true);
-    expect(wrapper.find('.fileSelection').exists()).toBe(true);
+    expect(wrapper.find('#fileSelection').exists()).toBe(true);
     expect(wrapper.find('.selectImageButton').exists()).toBe(true);
     expect(wrapper.find('.selectImageText').exists()).toBe(false);
   });

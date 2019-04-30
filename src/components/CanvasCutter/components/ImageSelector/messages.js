@@ -1,4 +1,5 @@
 export const messages = {
-  pleaseSelect: 'Please select an image',
+  pleaseSelect: 'Select an image',
+  dragToReplace: 'Replace the image',
   selectImage: 'Select'
 };
